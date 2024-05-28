@@ -1,0 +1,29 @@
+data: {
+  parser: {
+    # 生成的解析器包和路径
+    package: "cn.xuyinyin.magic.parser.impl",
+    # 解析器名称
+    class: "CmdSqlParserImpl",
+
+    # 新的关键字
+    keywords : [
+      "LOAD",
+      "SEPARATOR"
+    ]
+
+    # 新增的语法解析方法
+    statementParserMethods : [
+        "SqlLoad()"
+    ]
+
+    # 包含的扩展语法文件
+    implementationFiles: [
+      "parserImpls.ftl"
+    ]
+  }
+}
+
+# 扩展文件的路径
+freemarkerLinks: {
+  includes: includes/
+}

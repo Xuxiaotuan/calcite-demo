@@ -37,4 +37,61 @@
             <version>1.4.14</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <outputDirectory>${basedir}/target/codegen</outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/src/main/codegen</directory>
+                                <filtering>false</filtering>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <!-- 从calcite-core。jar 提前去解析器语法模板，并放入FreeMarker模版所在目录 -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.4.0</version>
+                    <executions>
+                        <execution>
+                            <id>unpack-parser-templates</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                               <artifactItems>
+                                   <artifactItem>
+                                       <groupId>org.apache.calcite</groupId>
+                                       <artifactId>calcite-core</artifactId>
+                                       <version>1.37.0</version>
+                                       <type>jar</type>
+                                       <overWrite>true</overWrite>
+                                       <outputDirectory>${project.build.directory}</outputDirectory>
+                                       <includes>**/Parser.jj</includes>
+                                   </artifactItem>
+                               </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>
